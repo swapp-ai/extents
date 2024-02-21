@@ -8,7 +8,7 @@ library ([github](https://github.com/taschini/pyinterval)).
 
 From `github`:
 ```shell
-$ pip install pip install git+https://github.com/swapp-ai/extents
+$ pip install git+https://github.com/swapp-ai/extents
 ```
 
 From source:
