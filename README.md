@@ -20,4 +20,4 @@ $ pip install .
 
 ## Usage:
 
-See the `tests/extents_tests.py` file. 
+See the `tests/extents_test.py` file. 
