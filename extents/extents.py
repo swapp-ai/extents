@@ -44,7 +44,9 @@ class ComponentType(Enum):
     HALF_CLOSED_LEFT = (2, '[', ')', operator.le, operator.lt)  # [a, b) interval
     HALF_CLOSED_RIGHT = (3, '(', ']', operator.lt, operator.le)  # (a, b] interval
     HALF_OPEN_LEFT = HALF_CLOSED_RIGHT
-    HALF_OPEN_RIGHT = HALF_OPEN_LEFT
+    HALF_OPEN_RIGHT = HALF_CLOSED_LEFT
+    OPEN_CLOSED = HALF_CLOSED_RIGHT
+    CLOSED_OPEN = HALF_CLOSED_LEFT
 
     @property
     def open_parens(self) -> str:
