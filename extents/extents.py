@@ -137,6 +137,9 @@ class Component(Sequence[_T]):
         if isinstance(self.type, str):
             self.type = ComponentType.get_from_name(self.type)
 
+    def is_empty(self) -> bool:
+        return self.is_open and self.inf == self.sup
+
     @property
     def length(self) -> float:
         return self.sup - self.inf
@@ -221,7 +224,8 @@ class Component(Sequence[_T]):
             n = len(from_value)
             assert 1 <= n <= 3, from_value
             if n == 1:
-                from_value = (from_value, from_value) if isinstance(from_value, tuple) else list(from_value)*2
+                n = 2
+                from_value = tuple(from_value*2) if isinstance(from_value, tuple) else list(from_value)*2
 
             if n == 2:
                 if isinstance(from_value, tuple):
@@ -257,6 +261,7 @@ class Interval(Sequence[Component[_T]], metaclass=MetaInterval):
 
     def __init__(self, *components) -> None:
         components = [Component.create(comp) for comp in components]
+        components = [comp for comp in components if not comp.is_empty()]
         components = sorted(components, key=operator.attrgetter('_compare_key'))
 
         if len(components) <= 1:
