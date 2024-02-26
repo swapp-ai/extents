@@ -92,12 +92,50 @@ class ComponentType(Enum):
         else:
             return ComponentType.HALF_CLOSED_RIGHT
 
+    @classmethod
+    def get_from_name(cls, name: str) -> ComponentType:
+        try:
+            return cls._COMPONENT_TYPE_ALIASES[name]
+        except Exception as ex:
+            raise ValueError(f'Unknown component type `{name}`.') from ex
+
+
+ComponentType._COMPONENT_TYPE_ALIASES = {
+    # closed interval [a, b]
+    'closed': ComponentType.CLOSED,
+    '[]': ComponentType.CLOSED,
+    '[_]': ComponentType.CLOSED,
+
+    # open interval (a, b)
+    'open': ComponentType.OPEN,
+    '()': ComponentType.OPEN,
+    '(_)': ComponentType.OPEN,
+
+    # left closed interval [a, b)
+    'closedopen': ComponentType.HALF_CLOSED_LEFT,
+    'closed_open': ComponentType.HALF_CLOSED_LEFT,
+    'half_closed_left': ComponentType.HALF_CLOSED_LEFT,
+    'half_open_right': ComponentType.HALF_CLOSED_LEFT,
+    '[)': ComponentType.HALF_CLOSED_LEFT,
+
+    # left open interval (a, b]
+    'openclosed': ComponentType.HALF_CLOSED_RIGHT,
+    'open_closed': ComponentType.HALF_CLOSED_RIGHT,
+    'half_open_left': ComponentType.HALF_CLOSED_RIGHT,
+    'half_closed_right': ComponentType.HALF_CLOSED_RIGHT,
+    '(]': ComponentType.HALF_CLOSED_RIGHT,
+}
+
 
 @dataclass
 class Component(Sequence[_T]):
     inf: _T
     sup: _T
-    type: ComponentType = ComponentType.CLOSED
+    type: ComponentType | str = ComponentType.CLOSED
+
+    def __post_init__(self) -> None:
+        if isinstance(self.type, str):
+            self.type = ComponentType.get_from_name(self.type)
 
     @property
     def length(self) -> float:
