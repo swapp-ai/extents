@@ -399,6 +399,16 @@ class Interval(Sequence[Component[_T]], metaclass=MetaInterval):
             other = type(self)(other)
         return (self & ~other) | (~self & other)
 
+    def difference(self, other: Union[Component[_T], Interval[_T]]) -> Interval[_T]:
+        """
+        Interval difference.
+        If you want the difference boundaries to be close,
+        make `self` closed and `other` with open intervals
+        """
+        if isinstance(other, Component):
+            other = type(self)(other)
+        return self & ~other
+
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, Interval) and self._endpoints == other._endpoints
 
