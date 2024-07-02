@@ -3,6 +3,14 @@ from unittest import TestCase
 from extents import Component, interval
 
 
+class TestIntervalDifference(TestCase):
+    def test_difference(self):
+        a = interval[0, 10]
+        b = interval((2, 3))
+        d = a.difference(b)
+        self.assertEqual(list(d), [Component(0, 2), Component(3, 10)])
+
+
 class TestIntervalsRegression(TestCase):
     def test_union_all(self):
         a = interval[7, 10]
