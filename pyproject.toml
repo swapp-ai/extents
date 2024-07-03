@@ -1,7 +1,17 @@
+# ------------------
+# Build system info:
+# ------------------
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = [
+    "setuptools>=61.0",
+    "setuptools-scm>=8.0"
+]
 build-backend = "setuptools.build_meta"
 
+
+# -------------
+# Project info:
+# -------------
 [project]
 name = "extents"
 
@@ -33,6 +43,31 @@ dependencies = [
     "more-itertools",
 ]
 
+# Optional dependencies (need these for testing + doc generation)
+[project.optional-dependencies]
+# key=[packages...]
+#     defines a special optional dependency which is installed
+#     pip install mypackage[key]
+doc = [
+    "jupyter",
+    "myst-nb",
+    "sphinx-autoapi",
+    "sphinx-rtd-theme",
+    "sphinx-markdown-builder",
+]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "tomlkit",
+    "jupyter",
+    "myst-nb",
+    "sphinx-autoapi",
+    "sphinx-rtd-theme",
+    "sphinx-markdown-builder",
+]
+tests = ["pytest"]
+
+
 [project.urls]
 Homepage = "https://github.com/swapp-ai/extents"
 Documentation = "https://github.com/swapp-ai/extents/blob/main/README.md"
@@ -40,5 +75,3 @@ Repository = "https://github.com/swapp-ai/extents.git"
 Issues = "https://github.com/swapp-ai/extents/issues"
 # Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
 
-[project.optional-dependencies]
-tests = ["pytest"]
