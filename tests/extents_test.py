@@ -36,6 +36,15 @@ class TestIntervalsRegression(TestCase):
         c = a & b
         self.assertEqual(len(c), 0)
 
+    def test_overlapping_intervals_bug(self):
+        comps = [(6.4304428, 9.7112847),
+                 (8.0380562, 9.6128597),
+                 (7.1797862, 7.8464562),
+                 (1.0580662, 3.6827393)
+                 ]
+        ival = interval(*comps)
+        self.assertEqual(len(ival), 2)
+
 
 class TestIntervalsDocumentationUsage(TestCase):
     def test_construction1(self):
