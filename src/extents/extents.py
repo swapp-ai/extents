@@ -217,6 +217,15 @@ class Component(Sequence[_T]):
         # return comp2.inf in comp1
 
     @classmethod
+    def join_extrema(cls, comp1: Component[_T], comp2: Component[_T]) -> Component[_T]:
+        inf = min(comp1.inf, comp2.inf)
+        sup = max(comp1.sup, comp2.sup)
+        tp = ComponentType.get(comp1.is_left_closed if comp1.inf <= comp2.inf else comp2.is_left_closed,
+                               comp1.is_right_closed if comp1.sup >= comp2.sup else comp2.is_right_closed
+                               )
+        return cls(inf, sup, tp)
+
+    @classmethod
     def create(cls, from_value, copy: bool = False) -> Component[_T]:
         if isinstance(from_value, Component):
             return from_value if not copy else Component(from_value.inf, from_value.sup, from_value.type)
@@ -269,17 +278,13 @@ class Interval(Sequence[Component[_T]], metaclass=MetaInterval):
             self._comps = components
             return
 
-        partition = [[]]
-        for comp1, comp2 in pairwise(chain(components, [components[-1]])):
-            partition[-1].append(comp1)
-            if not Component.are_continuous(comp1, comp2):
-                partition.append([])
-
-        components = []
-        for part in partition:
-            inf = part[0]
-            sup = max(part, key=operator.attrgetter('sup'))
-            components.append(Component.from_extrema(inf, sup))
+        partition = [components[0]]
+        for comp in components[1:]:
+            if Component.are_continuous(partition[-1], comp):
+                partition[-1] = Component.join_extrema(partition[-1], comp)
+            else:
+                partition.append(comp)
+        components = partition
 
         self._comps = components
         self._endpoints = sum([[comp.inf, comp.sup] for comp in components], [])
