@@ -10,8 +10,6 @@ from enum import Enum
 from itertools import chain, groupby
 from typing import TypeVar, Sequence, List, Union, Tuple, Callable, Iterable, Any
 
-from more_itertools import pairwise
-
 
 __all__ = [
     'Component',

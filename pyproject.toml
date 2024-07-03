@@ -15,7 +15,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "extents"
 
-version = "0.2.1"
+version = "0.2.2"
 
 authors = [
     {name="Michael Frank", email="michaelfrank@swapp.ai"},
@@ -40,7 +40,6 @@ classifiers = [
 requires-python = ">= 3.7"
 
 dependencies = [
-    "more-itertools",
 ]
 
 # Optional dependencies (need these for testing + doc generation)
@@ -65,7 +64,9 @@ dev = [
     "sphinx-rtd-theme",
     "sphinx-markdown-builder",
 ]
-tests = ["pytest"]
+tests = [
+    "pytest"
+]
 
 
 [project.urls]

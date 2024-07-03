@@ -2,7 +2,7 @@ import importlib.metadata
 import pathlib
 
 
-__version__ = importlib.metadata.version("swp-extents")
+__version__ = importlib.metadata.version("extents")
 """ Package version -- read only value """
 
 
