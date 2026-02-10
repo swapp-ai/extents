@@ -8,7 +8,7 @@ from bisect import bisect_left, bisect_right
 from dataclasses import dataclass
 from enum import Enum
 from itertools import chain, groupby
-from typing import TypeVar, Sequence, List, Union, Tuple, Callable, Iterable, Any
+from typing import TypeVar, Sequence, List, Union, Tuple, Callable, Iterable, Any, TYPE_CHECKING, Self
 
 
 __all__ = [
@@ -444,3 +444,14 @@ class Interval(Sequence[Component[_T]], metaclass=MetaInterval):
 
 
 interval = Interval
+
+
+if TYPE_CHECKING:
+    # This is ONLY for PyCharm/mypy/pyright. No runtime effect.
+    class Interval(Interval):  # type: ignore[misc]
+        def __class_getitem__(cls, item: Any) -> Self:  # noqa
+            pass
+
+    class interval(interval):  # noqa
+        def __class_getitem__(cls, item: Any) -> Self:  # noqa
+            pass
